@@ -1,13 +1,10 @@
 #!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
 
 import os
 import sys
 import time
 import csv
+import json
 import paho.mqtt.client as mqtt
 
 def on_connect(client, userdata, flags, rc_value):
@@ -20,7 +17,7 @@ def on_log(client, userdata, level, buf):
     print("log: ", buf)
     
 class VirtualSensor:
-    def __init__(self, broker, topic="taugroup", csvpath="aq.csv", verbose=True,
+    def __init__(self, broker, topic="taugroup", filepath=None, verbose=True,
                  port=1883, timeout=60, interval=5, delimiter=",",
                  connect_cb=on_connect, publish_cb=on_publish, log_cb=on_log):
         self.mqtt_client = mqtt.Client()
@@ -31,39 +28,47 @@ class VirtualSensor:
         self.interval = interval
         self.delimiter = delimiter
 #TODO insert more checks
-        self.csvpath = csvpath
-        self.topic = os.path.basename(csvpath).split('.')[0]
+        self.filepath = filepath
+        self.topic = os.path.basename(filepath).split('.')[0]
         
         if verbose:
             print("broker   :", broker)
             print("topic    :", self.topic)
-            print("csv path :", self.csvpath)
+            print("file path:", self.filepath)
             print("interval :", self.interval)
             print("delimiter:", self.delimiter)
 
     def publish(self, loop=True):
-        if not os.path.exists(self.csvpath):
-            print ("CSV file is not found!")
+        if not os.path.exists(self.filepath):
+            print ("The file is not found!")
             return False
         data_value = {}
         key_values = []
 
-        with open(self.csvpath, mode='r') as csv_file:
-            csv_reader = csv.reader(csv_file, delimiter=self.delimiter)
-            line_count = 0
-            for row in csv_reader:
-                if line_count == 0:
-                    key_values = row
-                    line_count += 1
-                else:
-                    temp_val = {}
-                    data_val = row
-                    count = 0
-                    for value in key_values:
-                        temp_val[value] = data_val[count]
-                        count += 1
-                    data_value[line_count] = temp_val
-                    line_count += 1
+        if self.filepath.lower().endswith(".csv"):
+            with open(self.filepath, mode='r') as csv_file:
+                csv_reader = csv.reader(csv_file, delimiter=self.delimiter)
+                line_count = 0
+                for row in csv_reader:
+                    if line_count == 0:
+                        key_values = row
+                        line_count += 1
+                    else:
+                        temp_val = {}
+                        data_val = row
+                        count = 0
+                        for value in key_values:
+                            temp_val[value] = data_val[count]
+                            count += 1
+                        data_value[line_count] = temp_val
+                        line_count += 1
+        elif self.filepath.lower().endswith(".json"):
+            with open (self.filepath, mode='r') as json_file:
+                data_value = json.loads(json_file.read())
+
+        else:
+            print("Only CSV and Json files are supported!")
+            return False
 
 # infinite loop
         if loop:
@@ -87,6 +92,7 @@ class VirtualSensor:
 
 if __name__ == "__main__":
     broker_address = "datahub.geos.tamu.edu"
-    vs = VirtualSensor(broker_address, csvpath="./data/air_quality.csv", delimiter=";")
+#    vs = VirtualSensor(broker_address, filepath="./data/air_quality.csv", delimiter=";", interval=1)
+    vs = VirtualSensor(broker_address, filepath="./data/nist_wind_generated_fire_data.json", interval=1)
     vs.publish()
 
