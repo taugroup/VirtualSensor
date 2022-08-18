@@ -92,7 +92,7 @@ class VirtualSensor:
 
 if __name__ == "__main__":
     broker_address = "datahub.geos.tamu.edu"
-    vs = VirtualSensor(broker_address, filepath="./data/air_quality.csv", delimiter=";", interval=1)#
+    vs = VirtualSensor(broker_address, filepath="./data/air_quality.csv", delimiter=";", interval=1)
 #    vs = VirtualSensor(broker_address, filepath="./data/nist_wind_generated_fire_data.json", interval=1)
     vs.publish()
 
