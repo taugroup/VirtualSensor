@@ -30,8 +30,8 @@ class VirtualSensor:
 #TODO insert more checks
         self.filepath = filepath
         self.topic = os.path.basename(filepath).split('.')[0]
-        
-        if verbose:
+        self.verbose = verbose 
+        if self.verbose:
             print("broker   :", broker)
             print("topic    :", self.topic)
             print("file path:", self.filepath)
@@ -42,7 +42,7 @@ class VirtualSensor:
         if not os.path.exists(self.filepath):
             print ("The file is not found!")
             return False
-        data_value = {}
+        data_value = []
         key_values = []
 
         if self.filepath.lower().endswith(".csv"):
@@ -60,7 +60,7 @@ class VirtualSensor:
                         for value in key_values:
                             temp_val[value] = data_val[count]
                             count += 1
-                        data_value[line_count] = temp_val
+                        data_value.append(temp_val)
                         line_count += 1
         elif self.filepath.lower().endswith(".json"):
             with open (self.filepath, mode='r') as json_file:
@@ -74,16 +74,20 @@ class VirtualSensor:
         if loop:
             while True:
                 for value in data_value:
-                    temp_data_val = str(data_value[value]).replace("'", '"')
+                    temp_data_val = str(value).replace("'", '"')
                     try:
+                        if self.verbose:
+                            print(self.topic, temp_data_val)
                         self.mqtt_client.publish(self.topic, temp_data_val)
                         time.sleep(self.interval)
                     except Exception as e:
                         print(f"Publish Failed. {e}")
         else:
             for value in data_value:
-                temp_data_val = str(data_value[value]).replace("'", '"')
+                temp_data_val = str(value).replace("'", '"')
                 try:
+                    if self.verbose:
+                        print(self.topic, temp_data_val)
                     self.mqtt_client.publish(self.topic, temp_data_val)
                     time.sleep(self.interval)
                 except Exception as e:
