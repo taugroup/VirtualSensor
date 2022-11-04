@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html lang="en" class="material-style layout-fixed">
+
+{% include 'includes/header.html' %}
+<link rel="stylesheet" href="/static/portal/css/pages/authentication.css">
+
+<body>
+<!-- [ Preloader ] Start -->
+<div class="page-loader">
+    <div class="bg-primary"></div>
+</div>
+<!-- [ Preloader ] End -->
+
+<!-- [ content ] Start -->
+
+<div class="authentication-wrapper authentication-1 px-8">
+    <div class="authentication-inner py-8">
+
+        <!-- [ Logo ] Start -->
+        <div class="d-flex justify-content-center align-items-center">
+            <div class="ui-w-60">
+                <div class="w-100 position-relative">
+                    <img src="/static/portal/img/favicon.ico" alt="TAMU Logo" class="img-fluid">
+                </div>
+            </div>
+        </div>
+        <!-- [ Logo ] End -->
+
+        <!-- [ Form ] Start -->
+{#        <form class="my-5" method="post">#}
+{#            {% csrf_token %}#}
+{#            {{ form.as_p }}#}
+{#            <div class="text-center text-muted">#}
+{#                <button type="submit" class="btn btn-primary">Sign In</button>#}
+{#            </div>#}
+{#        </form>#}
+        <form class="my-5" method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="form-group">
+                {{ form.username.errors }}
+                <label class="form-label">Username</label>
+                <input type="text" name="username" class="form-control">
+                <div class="clearfix"></div>
+            </div>
+            <div class="form-group">
+                {{ form.password1.errors }}
+                <label class="form-label">Password</label>
+                <input type="password" name="password1" class="form-control">
+                <div class="clearfix"></div>
+            </div>
+            <div class="form-group">
+                {{ form.password2.errors }}
+                <label class="form-label">Confirm Password</label>
+                <input type="password" name="password2" class="form-control">
+                <div class="clearfix"></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block mt-4">Sign Up</button>
+        </form>
+        <!-- [ Form ] End -->
+        <div class="text-center text-muted">
+            <a class="hover:text-blue-500" href="{% url 'login' %}">Already have an account?</a>
+        </div>
+    </div>
+</div>
+<!-- [ Layout wrapper] End -->
+{% include 'includes/scripts.html' %}
+
+</body>
+
+</html>

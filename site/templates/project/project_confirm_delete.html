@@ -1,0 +1,25 @@
+{% extends "project/base.html" %}
+
+{% block page_title %}
+    Delete Project {{ object.name.upper }}?
+{% endblock %}
+
+{% block page_content %}
+    <form method="post">{% csrf_token %}
+        <div class="well well-lg">
+            <p>
+                Are you sure you want to delete the project {{ object.name.upper }} ? All the records of this
+                project will be purged from our system.
+            </p>
+            <br/>
+            <div align="left">
+                <button type="submit" class="btn btn-danger">
+                    <span>Delete</span>
+                </button>
+                <a href="{% url "project_list" %}">
+                    <button type="button" class="btn btn-default">Cancel</button>
+                </a>
+            </div>
+        </div>
+    </form>
+{% endblock %}

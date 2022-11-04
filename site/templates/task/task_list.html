@@ -1,0 +1,82 @@
+{% extends "task/base.html" %}
+
+{% block page_title %}
+    <i class="feather icon-list"></i>&nbsp; Task List
+{% endblock %}
+
+{% block page_content %}
+    <table id="datatable" class="table table-hover table-striped table-bordered">
+        <thead class="thead">   <!-- header row -->
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            {% if user.is_superuser %}
+                <th>User</th>
+            {% endif %}
+            <th>Status</th>
+            <th>Execution Time</th>
+            <th>Time Created</th>
+            {#            <th>Description</th>#}
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for p in object_list %}
+            {% if p %}
+                <tr>
+                    <td>{{ p.id }}</td>
+                    <td>
+                        <a href="{% url 'task_detail' p.id %}"
+                           title="
+                                   {{ p.name }}{% if p.description %}: {{ p.description | truncatewords:40 }}{% endif %}">
+                            <button class="btn btn-outline-primary" style="margin:0 0 5px 5px;">
+                                {{ p.name }}
+                            </button>
+                        </a>
+                    </td>
+                    {% if user.is_superuser %}
+                        <td>
+                            {{ p.user }}
+                        </td>
+                    {% endif %}
+                    <td>
+                    </td>
+                    <td>{{ p.exec_time }}</td>
+                    <td>
+                        {{ p.time_created }}
+                    </td>
+                    {#                    <td>{{ p.description | truncatewords:10 }}</td>#}
+                    <td style="width:60px">
+                        <a href="{% url 'task_detail' p.id %}"
+                           title="View the details of this task">
+                            <i class="feather icon-search text-primary"></i>
+                        </a>
+                        {% if p.user == request.user or user.is_superuser %}
+                            <a href="{% url 'task_update' p.id %}"
+                               title="Update this task">
+                                <i class="feather icon-edit-2 text-warning"></i>
+                            </a>
+                            <a href="{% url 'task_delete' p.id %}"
+                               title="Delete this task">
+                                <i class="feather icon-x text-danger"></i>
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+    <script>
+        $(document).ready(function () {
+            $('#datatable').DataTable({
+                "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
+                "order": [[0, 'desc']]
+            });
+        });
+    </script>
+{% endblock javascripts %}

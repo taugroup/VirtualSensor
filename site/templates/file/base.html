@@ -1,0 +1,15 @@
+{% extends "includes/base.html" %}
+{% block page_nav_icon %}
+    <i class="feather icon-file-text"></i>
+{% endblock %}
+
+{% block page_nav_button %}
+    {% if input.file_set.count == 0 %}
+    <a href=" {% url "input_create" %}"
+       title="New Input">
+        <button type="button" class="btn btn-primary waves-effect float-right">
+            <i class="feather icon-plus-circle"></i> &nbsp; New Input
+        </button>
+    </a>
+    {% endif %}
+{% endblock %}

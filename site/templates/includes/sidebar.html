@@ -1,0 +1,46 @@
+<!-- [ Layout sidenav ] Start -->
+<div id="layout-sidenav" class="layout-sidenav sidenav sidenav-vertical bg-dark">
+    <div class="app-brand demo">
+                    <span class="app-brand-logo">
+                        <i class="sidenav-icon lnr lnr-earth text-info"></i>
+{#                        <img src="/static/portal/img/logo.png" alt="Brand Logo" class="img-fluid">#}
+                    </span>
+        <a href="{% url "home" %}"
+           class="app-brand-text demo sidenav-text font-weight-normal ml-2">CATCCH</a>
+        <a href="javascript:" class="layout-sidenav-toggle sidenav-link text-large ml-auto">
+            <i class="ion ion-md-menu align-middle"></i>
+        </a>
+    </div>
+    <div class="sidenav-divider mt-0"></div>
+
+    <!-- Links -->
+    <ul class="sidenav-inner py-1">
+
+        {% load activetab_tags %}
+
+        <!-- Project List -->
+        <li class="sidenav-item {% active request '^/project' %}">
+            <a href="{% url "project_list" %}" class="sidenav-link">
+                <i class="sidenav-icon feather icon-paperclip"></i>
+                <div>Projects</div>
+            </a>
+        </li>
+{#        <!-- Input Files -->#}
+{#        <li class="sidenav-item {% active request '^/input' %}">#}
+{#            <a href="{% url "input_list" %}" class="sidenav-link">#}
+{#                <i class="sidenav-icon feather icon-file-text"></i>#}
+{#                <div>Input Files</div>#}
+{#            </a>#}
+{#        </li>#}
+        <!-- Tasks -->
+        {% if user.is_superuser %}
+            <li class="sidenav-item {% active request '^/task' %}">
+                <a href="{% url "task_list" %}" class="sidenav-link">
+                    <i class="sidenav-icon feather icon-check-circle"></i>
+                    <div>Tasks</div>
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</div>
+<!-- [ Layout sidenav ] End -->

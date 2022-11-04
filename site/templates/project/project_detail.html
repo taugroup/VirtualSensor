@@ -1,0 +1,85 @@
+{% extends "project/base.html" %}
+
+{% block page_title %}
+    <i class="feather icon-search"></i>&nbsp; Project Details of {{ object | upper }}
+{% endblock page_title %}
+
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-12">
+            <a href="{% url 'project_delete' object.id %}" title="Delete this project">
+                <button type="button" class="btn btn-danger waves-effect float-right">
+                    <i class="feather icon-x-circle"></i> &nbsp; Delete
+                </button>
+            </a>
+        </div>
+    </div>
+    <hr/>
+    <h5 class="font-weight-bold py-3 mb-0">Tasks</h5>
+    <div class="row">
+        <div class="col-md-12">
+            {% if object.task_set.count == 0 %}
+                <a href="{% url 'task_create'  object.id %}"
+                   title="Create a new task input for project {{ object }} (up to 1 task)">
+                    <button class="btn btn-primary display-2">
+                        <i class="feather icon-check-circle"></i>&nbsp; New Task
+                    </button>
+                </a>
+            {% endif %}
+            {% for t in object.task_set.all %}
+                {% if request.user == t.user or user.is_superuser %}
+                    <a href="{% url 'task_detail' t.id %}"
+                       title="Task {{ t.name }}{% if t.description %}:
+                                           {{ t.description | truncatewords:40 }}
+                                       {% endif %}">
+                        <button class="btn
+                                        {% if t.status == "finished" %}
+                                        btn-success
+                                        {% elif t.status == "running" %}
+                                        btn-warning
+                                        {% elif t.status == "queued" %}
+                                        btn-info
+                                        {% endif %}
+                                        " style="margin:0 0 5px 5px;">
+                            <i class="feather icon-check-circle"></i>&nbsp; {{ t }}
+                            <span class="badge text-success">{{ t.status }}</span>
+                        </button>
+                    </a>
+                {% endif %}
+            {% endfor %}
+
+        </div>
+    </div>
+    <hr/>
+    <h5 class="font-weight-bold py-3 mb-0">Input</h5>
+    <div class="row">
+        <div class="col-md-12">
+            {% if object.input_set.count < max_number_inputs %}
+                <a href="{% url 'input_create' object.id %}"
+                   title="Create a new application input for project {{ object }} (up to 4 inputs)">
+                    <button class="btn btn-primary">
+                        <i class="feather icon-plus-circle"></i>&nbsp; New Input
+                    </button>
+                </a>
+            {% endif %}
+            &nbsp;
+            {% for a in object.input_set.all %}
+                {% if request.user == a.user %}
+                    <a href="{% url 'file_create' a.id %}" title="Input
+                            {{ a.name }}{% if a.description %}: {{ a.file_set.all.count }} files {{ a.description | truncatewords:40 }}{% endif %}">
+                        <button class="btn {% if a.file_set.all %}btn-success{% else %}btn-warning{% endif %}">
+                            <i class="feather icon-file-text"></i>&nbsp; {{ a }} <span class="badge">{{ a.file_set.all.count }}</span>
+                        </button>
+                    </a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <hr/>
+    <h5 class="font-weight-bold py-3 mb-0">Project Properties</h5>
+    <div class="row">
+        <div class="col-md-12">
+            {% include "table/object_table.html" %}
+        </div>
+    </div>
+{% endblock %}

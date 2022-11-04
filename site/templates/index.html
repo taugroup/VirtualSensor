@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en" class="material-style layout-fixed">
+{% include 'includes/header.html' %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="/static/portal/css/carousel.css">
+{% endblock stylesheets %}
+<body>
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <i class="lnr lnr-earth text-info"></i>&nbsp;&nbsp;
+        <a class="navbar-brand" href="#">CATCCH</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" target="_blank" href="https://www.tamu.edu/">TAMU</a>
+                </li>
+                {#                <li class="nav-item">#}
+                {#                    <a class="nav-link disabled" href="#">Disabled</a>#}
+                {#                </li>#}
+            </ul>
+{#            {% if user.is_authenticated %}#}
+{#                <div class="navbar-nav align-items-lg-center ml-auto">#}
+{#                    <div class="nav-item dropdown">#}
+{#                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">#}
+{#                    <span class="d-inline-flex flex-lg-row-reverse align-items-center align-middle">#}
+{#                                        <img src="/static/portal/img/avatars/1.png" alt#}
+{#                                             class="d-block ui-w-30 rounded-circle">#}
+{#                                        <i class="lnr lnr-user"></i>#}
+{#                                        <span class="px-1 mr-lg-2 ml-2 ml-lg-0">{{ request.user.first_name | capfirst }}&nbsp;#}
+{#                                            {% if user.is_superuser %}(System Admin){% endif %}</span>#}
+{#                                    </span>#}
+{#                        </a>#}
+{#                        <div class="dropdown-menu dropdown-menu-right">#}
+                            {#                    <a href="javascript:" class="dropdown-item">#}
+                            {#                        <i class="feather icon-user text-muted"></i> &nbsp; My profile</a>#}
+                            {#                    <a href="javascript:" class="dropdown-item">#}
+                            {#                        <i class="feather icon-mail text-muted"></i> &nbsp; Messages</a>#}
+{#                            <a href="{% url 'project_list' %}" class="dropdown-item">#}
+{#                                <i class="feather icon-target text-muted"></i> &nbsp; CATCCH Portal</a>#}
+{#                            <div class="dropdown-divider"></div>#}
+{#                            <a href="{% url 'logout' %}" class="dropdown-item">#}
+{#                                <i class="feather icon-power text-danger"></i> &nbsp; Log Out</a>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            {% else %}#}
+{#                <a href=" {% url "login" %}" title="New Input">#}
+{#                    <button type="button" class="btn btn-white waves-effect float-right">#}
+{#                        <i class="lnr lnr-user"></i> &nbsp; Login#}
+{#                    </button>#}
+{#                </a>#}
+{#            {% endif %}#}
+        </div>
+    </nav>
+</header>
+
+<main role="main">
+
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img class="first-slide"
+                     src="/static/portal/img/catcch/o2.jpg"
+                     alt="First slide">
+                <div class="container">
+                    <div class="carousel-caption text-right" >
+                        <h1>Sustainable Blue Web Tool</h1>
+                        <p>Our Sustainable Blue web tool will help stakeholders in West Coast fisheries who want to
+                            adopt sustainable management and fishing practices make informed decisions according to
+                            their values despite ecosystem uncertainties under future climate change.
+                        </p>
+                        <p><a class="btn btn-lg btn-primary" href="{% url "signup" %}" role="button">Sign up today</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="second-slide"
+                     src="/static/portal/img/catcch/f3.jpg"
+                     alt="Second slide">
+                <div class="container">
+                    <div class="carousel-caption">
+                        <h1>Another example headline.</h1>
+                        <p>Our Sustainable Blue web tool will help stakeholders in West Coast fisheries who want to
+                            adopt sustainable management and fishing practices make informed decisions according to
+                            their values despite ecosystem uncertainties under future climate change.</p>
+                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="third-slide"
+                     src="/static/portal/img/catcch/m3.jpg"
+                     alt="Third slide">
+                <div class="container">
+                    <div class="carousel-caption text-right">
+                        <h1>One more for good measure.</h1>
+                        <p>Our Sustainable Blue web tool will help stakeholders in West Coast fisheries who want to
+                            adopt sustainable management and fishing practices make informed decisions according to
+                            their values despite ecosystem uncertainties under future climate change.</p>
+                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+
+
+    <!-- Marketing messaging and featurettes
+    ================================================== -->
+    <!-- Wrap the rest of the page in another container to center all the content. -->
+
+    <div class="container marketing">
+
+        <!-- Three columns of text below the carousel -->
+        <div class="row">
+            <div class="col-lg-4">
+                <img class="rounded-circle"
+                     src="/static/portal/img/catcch/f1.jpg"
+                     alt="Generic placeholder image" width="200" height="200">
+                <h2>Task 1</h2>
+                <p>Fisheries stakeholder participation for meaningful knowledge co-production</p>
+                <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+            </div><!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+                <img class="rounded-circle"
+                     src="/static/portal/img/catcch/m4.jpg"
+                     alt="Generic placeholder image" width="200" height="200">
+                <h2>Task 2</h2>
+                <p>Model results translated into information responsive to user priorities</p>
+                <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+            </div><!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+                <img class="rounded-circle"
+                     src="/static/portal/img/catcch/m5.jpg"
+                     alt="Generic placeholder image" width="200" height="200">
+                <h2>Task 3</h2>
+                <p>Tools for informed, intelligent and sustainable decision making for climate-ready fisheries management </p>
+                <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+            </div><!-- /.col-lg-4 -->
+        </div><!-- /.row -->
+
+
+        <!-- START THE FEATURETTES -->
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">First featurette heading<span
+                        class="text-muted">Subcaption title</span></h2>
+                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis
+                    euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus,
+                    tellus ac cursus commodo.</p>
+            </div>
+            <div class="col-md-5">
+                <img class="featurette-image img-fluid mx-auto" src="/static/portal/img/catcch/m5.jpg"
+                     alt="Generic placeholder image">
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <div class="col-md-7 order-md-2">
+                <h2 class="featurette-heading">Oh yeah, it's that good. <span
+                        class="text-muted">Subcaption title</span></h2>
+                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis
+                    euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus,
+                    tellus ac cursus commodo.</p>
+            </div>
+            <div class="col-md-5 order-md-1">
+                <img class="featurette-image img-fluid mx-auto" src="/static/portal/img/catcch/o2.jpg"
+                     alt="Generic placeholder image">
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Subcaption title</span></h2>
+                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis
+                    euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus,
+                    tellus ac cursus commodo.</p>
+            </div>
+            <div class="col-md-5">
+                <img class="featurette-image img-fluid mx-auto" src="/static/portal/img/catcch/o3.jpg"
+                     alt="Generic placeholder image">
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <!-- /END THE FEATURETTES -->
+
+    </div><!-- /.container -->
+</main>
+
+<!-- FOOTER -->
+{% include 'includes/footer.html' %}
+</body>
+{% include 'includes/scripts.html' %}
+</html>

@@ -1,0 +1,151 @@
+{% extends "project/base.html" %}
+{% block page_title %}
+    <i class="feather icon-list"></i>&nbsp; Project List
+{% endblock %}
+
+{% block page_content %}
+    <table id="datatable" class="table table-hover table-striped table-bordered" width="100%">
+        <thead class="thead">   <!-- header row -->
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            {% if user.is_superuser %}
+                <th>User</th>
+            {% endif %}
+            <th>Inputs</th>
+            <th>Tasks</th>
+            {% if user.is_superuser %}
+                <th>Time Created</th>
+            {% endif %}
+            {#            <th>Description</th>#}
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for p in object_list %}
+            {% if p %}
+                <tr>
+                    <td>{{ p.id }}</td>
+                    <td>
+                        <a href="{% url 'project_detail' p.id %}"
+                           title="
+
+                                   {{ p.name }}{% if p.description %}: {{ p.description | truncatewords:40 }}{% endif %}">
+                            <button class="btn btn-primary" style="margin:0 0 5px 5px;">
+                                <i class="feather icon-paperclip"></i>&nbsp; {{ p.name }}
+                            </button>
+                        </a>
+                    </td>
+                    {% if user.is_superuser %}
+                        <td>
+                            {{ p.user }}
+                        </td>
+                    {% endif %}
+                    <td>
+                        <div class="row">
+                            {% if p.input_set.count < max_number_inputs %}
+                                <a href="{% url 'input_create' p.id %}"
+                                   title="Create a new application input for project {{ p.name }} (up to 4 inputs)">
+                                    <button class="btn">
+                                        <i class="feather icon-plus-circle text-primary"></i>
+                                    </button>
+                                </a>
+                            {% endif %}
+                            {% for a in p.input_set.all %}
+                                {% if request.user == a.user or user.is_superuser %}
+                                    <a href="{% url 'file_create' a.id %}"
+                                       title="Input
+                                               {{ a.name }}{% if a.description %}: {{ a.file_set.all.count }} files {{ a.description | truncatewords:40 }}{% endif %}">
+                                        <button class="btn
+                                        {% if a.file_set.all %}
+                                        btn-success
+                                        {% else %}
+                                        btn-warning
+                                        {% endif %}
+                                        " style="margin:0 0 5px 5px;">
+                                            <i class="feather icon-file-text"></i>&nbsp; {{ a }}
+                                            <span class="badge">{{ a.file_set.all.count }}</span>
+                                        </button>
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </td>
+                    <td>
+                        {% if p.task_set.count == 0 %}
+                            <a href="{% url 'task_create' p.id %}"
+                               title="Create a new task input for project {{ p.name }} (up to 1 task)">
+                                <button class="btn">
+                                    <i class="feather icon-plus-circle text-primary"></i>
+                                </button>
+                            </a>
+                        {% endif %}
+                        {% for t in p.task_set.all %}
+                            {% if request.user == t.user or user.is_superuser %}
+                                <a href="{% url 'task_detail' t.id %}"
+                                   title="Task {{ t.name }}{% if t.description %}:
+                                           {{ t.description | truncatewords:40 }}
+                                       {% endif %}">
+                                    <button class="btn
+                                        {% if t.status == "finished" %}
+                                        btn-success
+                                        {% elif t.status == "running" %}
+                                        btn-warning
+                                        {% elif t.status == "queued" %}
+                                        btn-info
+                                        {% endif %}
+                                        " style="margin:0 0 5px 5px;">
+                                        <i class="feather icon-check-circle"></i>&nbsp; {{ t }}
+                                        <span class="badge">{{ t.status }}</span>
+                                        {% if t.status == "finished" %}
+                                            in <span class="badge">{{ t.exec_time }}</span>
+                                        {% endif %}
+                                    </button>
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    {% if user.is_superuser %}
+                        <td>
+                            {{ p.time_created }}
+                        </td>
+                    {% endif %}
+                    {#                    <td>{{ p.description | truncatewords:10 }}</td>#}
+                    <td style="width:60px">
+                        <a href="{% url 'project_detail' p.id %}"
+                           title="View the details of this project">
+                            <i class="feather icon-search text-primary"></i>
+                        </a>
+                        {% if p.user == request.user or user.is_superuser %}
+                            <a href="{% url 'project_update' p.id %}"
+                               title="Update this project">
+                                <i class="feather icon-edit-2 text-warning"></i>
+                            </a>
+                            <a href="{% url 'project_delete' p.id %}"
+                               title="Delete this project">
+                                <i class="feather icon-x text-danger"></i>
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+    <script>
+        $(document).ready(function () {
+            $('#datatable').DataTable({
+                "lengthMenu": [[10, 50, -1], [10, 50, "All"]],
+                "order": [[0, 'desc']]
+            });
+        });
+    </script>
+{% endblock javascripts %}
+
+{% block hint_content %}
+    to be added ...
+{% endblock %}

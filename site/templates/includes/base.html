@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<html lang="en" class="material-style layout-fixed">
+
+{% include 'includes/header.html' %}
+
+<body>
+<!-- [ Preloader ] Start -->
+<div class="page-loader">
+    <div class="bg-primary"></div>
+</div>
+<!-- [ Preloader ] End -->
+
+<!-- [ Layout wrapper ] Start -->
+<div class="layout-wrapper layout-2">
+    <div class="layout-inner">
+        {% include 'includes/sidebar.html' %}
+        <!-- [ Layout container ] Start -->
+        <div class="layout-container">
+            {% include 'includes/navigation.html' %}
+            <!-- [ Layout content ] Start -->
+            <div class="layout-content">
+                <!-- [ content ] Start -->
+                <div class="container-fluid flex-grow-1 container-p-y">
+                    {% block page_nav %}
+                        <nav class="navbar navbar-expand navbar-light bg-white">
+                            <a class="navbar-brand" href="#"><strong>
+                                {% block page_nav_icon %}
+                                {% endblock %}
+                            </strong></a>
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav mr-auto">
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <strong>Projects</strong>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="{% url "project_create" %}"><i
+                                                    class="feather icon-file-plus"></i> &nbsp; New Project</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="{% url "project_list" %}"><i
+                                                    class="feather icon-list"></i>
+                                                &nbsp; List Project</a>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <strong>Inputs</strong>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="{% url "input_create" %}"><i
+                                                    class="feather icon-file-plus"></i> &nbsp; New Input</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="{% url "input_list" %}"><i
+                                                    class="feather icon-list"></i> &nbsp; List Input</a>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <strong>Tasks</strong>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="{% url "task_create" %}"><i
+                                                    class="feather icon-file-plus"></i> &nbsp; New Task</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="{% url "task_list" %}"><i
+                                                    class="feather icon-list"></i> &nbsp; List Task</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                                {% block page_nav_button %}
+                                {% endblock %}
+                            </div>
+                        </nav>
+                    {% endblock %}
+                    <hr/>
+                    <h4 class="font-weight-bold py-3 mb-0">
+                        {% block page_title %}{% endblock %}
+                    </h4>
+                    <hr/>
+                    <!-- [ message ] Start -->
+                    {% for message in messages %}
+                        <div id="alert" class="alert alert-dark-{{ message.tags }} alert-dismissible fade show"
+                             role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                        </div>
+                    {% endfor %}
+                    <!-- [ message ] Ends -->
+                    {% block content %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-body table-responsive">
+                                        {% block page_content %}
+                                        {% endblock %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- [ Everything Shall Stay Inside! ] -->
+                    {% endblock content %}
+                </div>
+                <!-- [ content ] End -->
+                {% include 'includes/footer.html' %}
+            </div>
+            <!-- [ Layout content ] Start -->
+        </div>
+        <!-- [ Layout container ] End -->
+    </div>
+    <!-- Overlay -->
+    <div class="layout-overlay layout-sidenav-toggle"></div>
+</div>
+<!-- [ Layout wrapper] End -->
+{% include 'includes/scripts.html' %}
+
+<script type="text/javascript">
+    setTimeout(function () {
+        // Closing the alert
+        $("#alert").alert('close');
+    }, 3000);
+</script>
+<!-- Specific Page JS goes HERE  -->
+
+{% block javascripts %}
+{% endblock javascripts %}
+
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+{% extends "task/base.html" %}
+
+{% block page_title %}
+    <i class="feather icon-search"></i>&nbsp; Task Details of {{ object | upper }}
+{% endblock page_title %}
+
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-12">
+            {% if object.output %}
+                <a href="{{ object.output.url }}" download>
+                    <button type="button" class="btn btn-primary waves-effect float-left">
+                        <i class="feather icon-file"></i> &nbsp; Output of TASK {{ object.name }}
+                    </button>
+                </a>
+            {% else %}
+                {% if request.user == object.user or user.is_superuser %}
+                    <a href="{% url 'task_detail' object.id %}"
+                       title="Task {{ object }}{% if object.description %}:
+                                           {{ object.description | truncatewords:40 }}
+                                       {% endif %}">
+                        <button class="btn
+                                        {% if object.status == "finished" %}
+                                        btn-success
+                                        {% elif object.status == "running" %}
+                                        btn-warning
+                                        {% elif object.status == "queued" %}
+                                        btn-info
+                                        {% endif %}
+                                        " style="margin:0 0 5px 5px;">
+                            <i class="feather icon-check-circle"></i> &nbsp; {{ object }}
+                            <span class="badge">{{ object.status }}</span>
+                        </button>
+                    </a>
+                {% endif %}
+            {% endif %}
+            <a href="{% url 'task_delete' object.id %}" title="Delete this task">
+                <button type="button" class="btn btn-danger waves-effect float-right">
+                    <i class="feather icon-x-circle"></i> &nbsp; Delete Task
+                </button>
+            </a>
+        </div>
+    </div>
+    <hr/>
+    <h5 class="font-weight-bold py-3 mb-0">Task Properties</h5>
+    <div class="row">
+        <div class="col-md-12">
+            {% include "table/object_table.html" %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block hint_content %}
+    to be added ...
+{% endblock %}

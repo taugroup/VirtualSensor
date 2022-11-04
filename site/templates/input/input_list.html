@@ -1,0 +1,113 @@
+{% extends "input/base.html" %}
+
+{% block page_title %}
+    <i class="feather icon-list"></i>&nbsp; Input List
+{% endblock %}
+
+{% block page_content %}
+    <table id="datatable" class="table table-hover table-striped table-bordered" width="100%">
+        <thead class="thead">   <!-- header row -->
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            {% if user.is_superuser %}
+                <th>User</th>
+            {% endif %}
+            <th>Input Files</th>
+            {#            <th>Time Created</th>#}
+            {#            <th>Description</th>#}
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for p in object_list %}
+            {% if p %}
+                <tr>
+                    <td>{{ p.id }}</td>
+                    <td>
+                        <a href="{% url 'file_create' p.id %}"
+                           title="Input
+                                   {{ p.name }}{% if p.description %}: {{ p.file_set.all.count }} files {{ p.description | truncatewords:40 }}{% endif %}">
+                            <button class="btn
+                                        {% if p.file_set.all %}
+                                        btn-success
+                                        {% else %}
+                                        btn-warning
+                                        {% endif %}
+                                        " style="margin:0 0 5px 5px;">
+                                <i class="feather icon-file-text"></i> &nbsp; {{ p }}
+                                <span class="badge">{{ p.file_set.all.count }}</span>
+                            </button>
+                        </a>
+                        {#                        <a href="{% url 'input_detail' p.id %}"#}
+                        {#                           title="#}
+                        {#                                   {{ p.name }}{% if p.description %}: {{ p.description | truncatewords:40 }}{% endif %}">#}
+                        {#                            <button class="btn btn-primary" style="margin:0 0 5px 5px;">#}
+                        {#                                <i class="glyphicon glyphicon-book"></i>{{ p.name }}#}
+                        {#                            </button>#}
+                        {#                        </a>#}
+                    </td>
+                    {% if user.is_superuser %}
+                        <td>
+                            {{ p.user }}
+                        </td>
+                    {% endif %}
+                    <td>
+                        {% for a in p.file_set.all %}
+                            {% if request.user == a.user %}
+                                <a href="{{ a.file.url }}"
+                                   title="Input file {{ a.name }}{% if a.description %}:
+                                           {{ a.description | truncatewords:40 }}
+                                       {% endif %}">
+                                    <button class="btn btn-default" style="margin:0 0 5px 5px;">
+                                        <i class="feather icon-file"></i> &nbsp; {{ a | truncatewords:3 }}
+                                        {% if a.file_set.all %}
+                                            <span class="badge">{{ a.file_set.all.count }}</span>
+                                        {% endif %}
+                                    </button>
+                                </a><br/>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    {#                    <td>#}
+                    {#                        {{ p.time_created }}#}
+                    {#                    </td>#}
+                    {#                    <td>{{ p.description | truncatewords:10 }}</td>#}
+                    <td style="width:60px">
+                        <a href="{% url 'file_create' p.id %}"
+                           title="Upload a new file for input {{ p.name }}">
+                            <i class="feather icon-plus-circle text-primary"></i>
+                        </a>
+                        <a href="{% url 'input_detail' p.id %}"
+                           title="View the details of this input">
+                            <i class="feather icon-search text-info"></i>
+                        </a>
+                        {% if p.user == request.user or user.is_superuser %}
+                            <a href="{% url 'input_update' p.id %}"
+                               title="Update this input">
+                                <i class="feather icon-edit-2 text-warning"></i>
+                            </a>
+                            <a href="{% url 'input_delete' p.id %}"
+                               title="Delete this input">
+                                <i class="feather icon-x text-danger"></i>
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+    <script>
+        $(document).ready(function () {
+            $('#datatable').DataTable({
+                "lengthMenu": [[5, 10, 50, -1], [5, 10, 50, "All"]],
+                "order": [[0, 'desc']]
+            });
+        });
+    </script>
+{% endblock javascripts %}

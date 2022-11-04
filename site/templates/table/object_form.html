@@ -1,0 +1,23 @@
+{% comment %}
+    Form table take an object as input and create a
+    a nice form for it.
+    Input variable name must be: form
+    if there will be files to be uploaded, uploadfile = True shall be returned.
+{% endcomment %}
+<form class="form-horizontal" action="." method="POST"
+      {% if uploadfile %}enctype="multipart/form-data"{% endif %}>
+    {% csrf_token %}
+    <table class="table table-borderless">
+        <tbody>
+        {{ form.as_table }}
+        <tr>
+            <td></td>
+            <td>
+                <button type="submit" class="btn btn-primary btn">
+                    <i class="feather icon-save"></i>&nbsp; Save
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>

@@ -1,0 +1,28 @@
+{% comment %}
+    Property table take an dictionary as input and generate
+    a nice table for it.
+    Input variable name must be: object
+{% endcomment %}
+{% load getvalue_tags %}
+
+<table id="datatable" class="table table-hover table-striped table-bordered">
+    <thead class="thead-light">
+    <tr>
+        <th>Property</th>
+        <th>Value</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for k, v in object.get_fields %}
+        {% if v %}
+            <tr>
+                <td>
+                    {{ k | title }}
+                </td>
+                <td>{{ v }}</td>
+                {#            <td>{% get_value object o.name %}</td>#}
+            </tr>
+        {% endif %}
+    {% endfor %}
+    </tbody>
+</table>

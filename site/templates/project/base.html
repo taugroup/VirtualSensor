@@ -1,0 +1,13 @@
+{% extends "includes/base.html" %}
+{% block page_nav_icon %}
+    <i class="feather icon-paperclip"></i>
+{% endblock %}
+
+{% block page_nav_button %}
+    <a href=" {% url "project_create" %}"
+       title="New Project">
+        <button type="button" class="btn btn-primary waves-effect float-right">
+            <i class="feather icon-plus-circle"></i> &nbsp; New Project
+        </button>
+    </a>
+{% endblock %}
