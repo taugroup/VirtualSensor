@@ -1,11 +1,10 @@
-#FROM python:3.9-slim
-FROM centos
+FROM python:3.10-slim
 
 WORKDIR /usr/src/app
 COPY . .
 #RUN yum -y update -y && yum -y install python3
-RUN yum -y install python3
-RUN mv /usr/bin/python3 /usr/bin/python
+#RUN yum -y install python3
+#RUN mv /usr/bin/python3 /usr/bin/python
 RUN pip3 install -U pip
 RUN pip install -r requirements.txt
 RUN /bin/bash -c ./init.sh

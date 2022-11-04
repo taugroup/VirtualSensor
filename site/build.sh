@@ -1,5 +1,5 @@
 #!/bin/bash
-IMAGE=dash
+IMAGE=vsp
 # to build
 rm -f $IMAGE.tar
 docker build -t $IMAGE .
