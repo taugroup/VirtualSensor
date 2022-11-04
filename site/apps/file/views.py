@@ -30,22 +30,14 @@ def post(request, input, file_list):
 
     # only allow two files
     if num_files > settings.PORTAL_MAX_NUMBER_FILES_PER_INPUT or num_files == 0:
-        messages.add_message(request, messages.ERROR, "Please upload up to two files, X1.csv and/or X2.csv!")
+        messages.add_message(request, messages.ERROR, "Please upload up to 5 files.")
         succeed = False
     else:
-        if num_files == settings.PORTAL_MAX_NUMBER_FILES_PER_INPUT:
-            if 'X1.csv' in file_names and "X2.csv" in file_names:
+        for fn in file_names:
+            if fn.endswith('.csv') or fn.endswith('.json'):
                 succeed = True
             else:
-                messages.add_message(request, messages.ERROR,
-                                     "When uploading two files, the file names must be X1.csv and X2.csv!")
-                succeed = False
-        elif num_files == 1:
-            if 'X1.csv' in file_names:
-                succeed = True
-            else:
-                messages.add_message(request, messages.ERROR,
-                                     "If uploading only one file, the file name must be X1.csv!")
+                messages.add_message(request, messages.ERROR, "Only CSV and JSON files are supported!")
                 succeed = False
 
     if succeed:
