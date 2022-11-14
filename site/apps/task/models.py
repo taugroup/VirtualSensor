@@ -8,7 +8,7 @@ from django.contrib.sites.models import Site
 from django.shortcuts import reverse
 
 from apps.core.models import CommonInfo
-from apps.project.models import Project
+from apps.sensor.models import Sensor
 from apps.input.models import Input
 from apps.file.models import File
 from apps.core.system import exec, symlink_all, get_upload_to
@@ -43,7 +43,7 @@ def deltatime2str(td_object):
     return ", ".join(strings)
 
 class Task(CommonInfo):
-    project = models.ForeignKey(Project, null=True, blank=False,
+    project = models.ForeignKey(Sensor, null=True, blank=False,
                                 help_text="Required.", on_delete=models.CASCADE)
     input = models.ForeignKey(Input, null=True, blank=False,
                               help_text="Required.", on_delete=models.CASCADE)

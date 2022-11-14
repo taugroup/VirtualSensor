@@ -119,7 +119,7 @@ def response_mimetype(request):
 
 # only works with input and file models
 def get_upload_to(instance, filename):
-    return os.path.join(instance.input.folder, filename)
+    return os.path.join(instance.folder, filename)
 
 
 def get_object_or_none(instance):

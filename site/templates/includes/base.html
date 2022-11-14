@@ -33,43 +33,43 @@
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <strong>Projects</strong>
+                                            <strong>Sensors</strong>
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item" href="{% url "project_create" %}"><i
-                                                    class="feather icon-file-plus"></i> &nbsp; New Project</a>
+                                            <a class="dropdown-item" href="{% url "sensor_create" %}"><i
+                                                    class="feather icon-file-plus"></i> &nbsp; New Sensor</a>
                                             <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="{% url "project_list" %}"><i
+                                            <a class="dropdown-item" href="{% url "sensor_list" %}"><i
                                                     class="feather icon-list"></i>
-                                                &nbsp; List Project</a>
+                                                &nbsp; List Sensors</a>
                                         </div>
                                     </li>
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <strong>Inputs</strong>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item" href="{% url "input_create" %}"><i
-                                                    class="feather icon-file-plus"></i> &nbsp; New Input</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="{% url "input_list" %}"><i
-                                                    class="feather icon-list"></i> &nbsp; List Input</a>
-                                        </div>
-                                    </li>
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <strong>Tasks</strong>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item" href="{% url "task_create" %}"><i
-                                                    class="feather icon-file-plus"></i> &nbsp; New Task</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="{% url "task_list" %}"><i
-                                                    class="feather icon-list"></i> &nbsp; List Task</a>
-                                        </div>
-                                    </li>
+{#                                    <li class="nav-item dropdown">#}
+{#                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"#}
+{#                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+{#                                            <strong>Inputs</strong>#}
+{#                                        </a>#}
+{#                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">#}
+{#                                            <a class="dropdown-item" href="{% url "input_create" %}"><i#}
+{#                                                    class="feather icon-file-plus"></i> &nbsp; New Input</a>#}
+{#                                            <div class="dropdown-divider"></div>#}
+{#                                            <a class="dropdown-item" href="{% url "input_list" %}"><i#}
+{#                                                    class="feather icon-list"></i> &nbsp; List Input</a>#}
+{#                                        </div>#}
+{#                                    </li>#}
+{#                                    <li class="nav-item dropdown">#}
+{#                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"#}
+{#                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+{#                                            <strong>Tasks</strong>#}
+{#                                        </a>#}
+{#                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">#}
+{#                                            <a class="dropdown-item" href="{% url "task_create" %}"><i#}
+{#                                                    class="feather icon-file-plus"></i> &nbsp; New Task</a>#}
+{#                                            <div class="dropdown-divider"></div>#}
+{#                                            <a class="dropdown-item" href="{% url "task_list" %}"><i#}
+{#                                                    class="feather icon-list"></i> &nbsp; List Task</a>#}
+{#                                        </div>#}
+{#                                    </li>#}
                                 </ul>
                                 {% block page_nav_button %}
                                 {% endblock %}

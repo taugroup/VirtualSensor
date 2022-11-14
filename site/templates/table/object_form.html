@@ -4,8 +4,7 @@
     Input variable name must be: form
     if there will be files to be uploaded, uploadfile = True shall be returned.
 {% endcomment %}
-<form class="form-horizontal" action="." method="POST"
-      {% if uploadfile %}enctype="multipart/form-data"{% endif %}>
+<form class="form-horizontal" action="." method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <table class="table table-borderless">
         <tbody>

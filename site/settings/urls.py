@@ -22,8 +22,8 @@ urlpatterns = [
                   path("", include("apps.home.urls")),
                   path('admin/', admin.site.urls),
                   path("account/", include("apps.account.urls")),
-                  path("project/", include("apps.project.urls")),
-                  path("input/", include("apps.input.urls")),
-                  path("task/", include("apps.task.urls")),
+                  path("sensor/", include("apps.sensor.urls")),
+                  # path("input/", include("apps.input.urls")),
+                  # path("task/", include("apps.task.urls")),
                   path("file/", include("apps.file.urls")),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

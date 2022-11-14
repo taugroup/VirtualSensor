@@ -13,7 +13,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 
-from apps.project.models import Project
+from apps.sensor.models import Sensor
 from apps.input.models import Input
 
 # import the logging library
@@ -56,7 +56,7 @@ class InputCreate(LoginRequiredMixin, CreateView):
 
     def get_initial(self):
         try:
-            project = get_object_or_404(Project, pk=self.kwargs['pk'])
+            project = get_object_or_404(Sensor, pk=self.kwargs['pk'])
             return {
                 "user": self.request.user,
                 "project": project,
@@ -96,7 +96,7 @@ class InputCreate(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(InputCreate, self).get_context_data(**kwargs)
 
-        projects = Project.objects.filter(user=self.request.user)
+        projects = Sensor.objects.filter(user=self.request.user)
         if projects is not None:
             context['form'].fields['project'].queryset = projects
         else:

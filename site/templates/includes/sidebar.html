@@ -8,7 +8,7 @@
                     </span>
 
         <a href="{% url "home" %}"
-           class="app-brand-text demo sidenav-text font-weight-normal ml-2">TAU Group</a>
+           class="app-brand-text demo sidenav-text font-weight-normal ml-2">Home</a>
         <a href="javascript:" class="layout-sidenav-toggle sidenav-link text-large ml-auto">
             <i class="ion ion-md-menu align-middle"></i>
         </a>
@@ -20,11 +20,11 @@
 
         {% load activetab_tags %}
 
-        <!-- Project List -->
-        <li class="sidenav-item {% active request '^/project' %}">
-            <a href="{% url "project_list" %}" class="sidenav-link">
+        <!-- Sensor List -->
+        <li class="sidenav-item {% active request '^/sensor' %}">
+            <a href="{% url "sensor_list" %}" class="sidenav-link">
                 <i class="sidenav-icon feather icon-paperclip"></i>
-                <div>Projects</div>
+                <div>Sensors</div>
             </a>
         </li>
 {#        <!-- Input Files -->#}
@@ -35,14 +35,14 @@
 {#            </a>#}
 {#        </li>#}
         <!-- Tasks -->
-        {% if user.is_superuser %}
-            <li class="sidenav-item {% active request '^/task' %}">
-                <a href="{% url "task_list" %}" class="sidenav-link">
-                    <i class="sidenav-icon feather icon-check-circle"></i>
-                    <div>Tasks</div>
-                </a>
-            </li>
-        {% endif %}
+{#        {% if user.is_superuser %}#}
+{#            <li class="sidenav-item {% active request '^/task' %}">#}
+{#                <a href="{% url "task_list" %}" class="sidenav-link">#}
+{#                    <i class="sidenav-icon feather icon-check-circle"></i>#}
+{#                    <div>Tasks</div>#}
+{#                </a>#}
+{#            </li>#}
+{#        {% endif %}#}
     </ul>
 </div>
 <!-- [ Layout sidenav ] End -->

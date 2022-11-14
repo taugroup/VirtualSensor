@@ -1,11 +1,11 @@
 from django.db import models
 from django.shortcuts import reverse
 from apps.core.models import CommonInfo
-from apps.project.models import Project
+from apps.sensor.models import Sensor
 
 
 class Input(CommonInfo):
-    project = models.ForeignKey(Project, null=True, blank=False,
+    project = models.ForeignKey(Sensor, null=True, blank=False,
                                 help_text="Required.", on_delete=models.CASCADE)
 
     class Meta:

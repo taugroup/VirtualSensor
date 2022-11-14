@@ -51,13 +51,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'django_q',
+    # 'django_q',
     'apps.core',
     'apps.account',
-    'apps.project',
-    'apps.input',
+    'apps.sensor',
+    # 'apps.input',
     'apps.file',
-    'apps.task',
+    # 'apps.task',
     'apps.home',
 ]
 
@@ -142,7 +142,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 MEDIA_URL = '/media/'
 
 AUTH_USER_MODEL = 'account.User'
-LOGIN_REDIRECT_URL = "/project/list"
+LOGIN_REDIRECT_URL = "/sensor/list"
 LOGIN_URL = "/account/login/"
 LOGOUT_REDIRECT_URL = "/"
 

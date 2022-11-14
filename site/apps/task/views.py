@@ -15,7 +15,7 @@ from django_q.tasks import async_task
 from django.conf import settings
 
 from apps.task.models import Task
-from apps.project.models import Project
+from apps.sensor.models import Sensor
 from apps.input.models import Input
 # import the logging library
 import logging
@@ -56,7 +56,7 @@ class TaskCreate(LoginRequiredMixin, CreateView):
     def get_initial(self, *args, **kwargs):
         initial = super(TaskCreate, self).get_initial()
         try:
-            project = get_object_or_404(Project, pk=self.kwargs['pk'])
+            project = get_object_or_404(Sensor, pk=self.kwargs['pk'])
             initial["user"] = self.request.user
             initial["project"] = project
             initial["input"] = project.input_set.first()
@@ -101,11 +101,11 @@ class TaskCreate(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(TaskCreate, self).get_context_data(**kwargs)
         try:
-            project = get_object_or_404(Project, pk=kwargs['pk'])
-            context['form'].fields['project'].queryset = Project.objects.filter(project=project)
+            project = get_object_or_404(Sensor, pk=kwargs['pk'])
+            context['form'].fields['project'].queryset = Sensor.objects.filter(project=project)
             context['form'].fields['input'].queryset = project.input_set.filter(project=project)
         except:
-            context['form'].fields['project'].queryset = Project.objects.filter(user=self.request.user)
+            context['form'].fields['project'].queryset = Sensor.objects.filter(user=self.request.user)
             context['form'].fields['input'].queryset = Input.objects.filter(user=self.request.user)
         return context
 
