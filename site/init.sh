@@ -7,4 +7,4 @@ rm -f dash.tar
 rm -rf media/users
 rm -f dash.tar
 #./manage.py loaddata static/initial/sites.json static/initial/projects.json static/initial/users.json
-./manage.py loaddata static/initial/users.json
+./manage.py loaddata static/initial/users.json static/initial/server.json

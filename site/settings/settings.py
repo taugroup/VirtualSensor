@@ -51,13 +51,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    # 'django_q',
+    'django_q',
     'apps.core',
     'apps.account',
     'apps.sensor',
-    # 'apps.input',
-    'apps.file',
-    # 'apps.task',
+    'apps.server',
+    # 'apps.file',
     'apps.home',
 ]
 
@@ -161,7 +160,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 Q_CLUSTER = {
     'name': 'DjangORM',
-    'workers': 4,
+    'workers': 8,
     'recycle': 500,
     'timeout': 60,
     'retry': 120,
@@ -199,3 +198,7 @@ DEFAULT_FROM_EMAIL = 'default from email'
 PORTAL_MAX_NUMBER_TASKS = 1
 PORTAL_MAX_NUMBER_INPUTS = 4
 PORTAL_MAX_NUMBER_FILES_PER_INPUT = 2
+
+# Virtual Sensor Settings
+BROKER_ADDRESS = 'datahub.geos.tamu.edu'
+BROKER_PORT = 1883

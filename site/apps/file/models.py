@@ -11,8 +11,6 @@ class File(CommonInfo):
 
     def save(self, *args, **kwargs):
         self.name = self.file.name
-        self.folder = self.sensor.folder
-
         super(File, self).save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
