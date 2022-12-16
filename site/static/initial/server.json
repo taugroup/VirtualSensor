@@ -1,0 +1,1 @@
+[{"model": "server.server", "pk": 1, "fields": {"name": "datahub", "user": 1, "folder": null, "time_created": "2022-11-15T05:24:44.174Z", "last_modified": "2022-11-15T05:24:56.651Z", "description": "", "address": "datahub.geos.tamu.edu", "port": 1883, "bridge_port": null, "username": null, "password": null, "connection": null, "groups": []}}]

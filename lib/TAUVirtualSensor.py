@@ -35,7 +35,6 @@ class VirtualSensor:
         self.mqtt_timeout = timeout
         self.interval = interval
         self.delimiter = delimiter
-#TODO insert more checks
         self.filepath = filepath
         if topic:
             self.topic = topic
