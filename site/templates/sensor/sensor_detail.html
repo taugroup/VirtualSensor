@@ -1,0 +1,79 @@
+{% extends "sensor/base.html" %}
+
+{% block page_title %}
+    <i class="feather icon-search"></i>&nbsp; Sensor Details of {{ object | upper }}
+{% endblock page_title %}
+
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-12">
+            <a href="{% url 'sensor_delete' object.id %}" title="Delete this sensor">
+                <button type="button" class="btn btn-danger waves-effect float-right">
+                    <i class="feather icon-x-circle"></i> &nbsp; Delete
+                </button>
+            </a>
+        </div>
+    </div>
+    <hr/>
+    {#    <h5 class="font-weight-bold py-3 mb-0">Tasks</h5>#}
+    {#    <div class="row">#}
+    {#        <div class="col-md-12">#}
+    {#            {% if object.task_set.count == 0 %}#}
+    {#                <a href="{% url 'task_create'  object.id %}"#}
+    {#                   title="Create a new task input for sensor {{ object }} (up to 1 task)">#}
+    {#                    <button class="btn btn-primary display-2">#}
+    {#                        <i class="feather icon-check-circle"></i>&nbsp; New Task#}
+    {#                    </button>#}
+    {#                </a>#}
+    {#            {% endif %}#}
+    {#            {% for t in object.task_set.all %}#}
+    {#                {% if request.user == t.user or user.is_superuser %}#}
+    {#                    <a href="{% url 'task_detail' t.id %}"#}
+    {#                       title="Task {{ t.name }}{% if t.description %}:#}
+    {#                                           {{ t.description | truncatewords:40 }}#}
+    {#                                       {% endif %}">#}
+    {#                        <button class="btn#}
+    {#                                        {% if t.status == "finished" %}#}
+    {#                                        btn-success#}
+    {#                                        {% elif t.status == "running" %}#}
+    {#                                        btn-warning#}
+    {#                                        {% elif t.status == "queued" %}#}
+    {#                                        btn-info#}
+    {#                                        {% endif %}#}
+    {#                                        " style="margin:0 0 5px 5px;">#}
+    {#                            <i class="feather icon-check-circle"></i>&nbsp; {{ t }}#}
+    {#                            <span class="badge text-success">{{ t.status }}</span>#}
+    {#                        </button>#}
+    {#                    </a>#}
+    {#                {% endif %}#}
+    {#            {% endfor %}#}
+    {##}
+    {#        </div>#}
+    {#    </div>#}
+    {#    <hr/>#}
+    <h5 class="font-weight-bold py-3 mb-0">File</h5>
+    <div class="row">
+        <div class="col-md-12">
+            <a href="{{ object.file.url }}" download>
+            <button class="btn btn-primary" style="margin:0 0 5px 5px;">
+                {{ object.filename }}
+            </button>
+            </a>
+            {#            {% if object.input_set.count < max_number_inputs %}#}
+            {#                <a href="{% url 'input_create' object.id %}"#}
+            {#                   title="Upload a file to create sensor {{ object }}">#}
+            {#                    <button class="btn btn-primary">#}
+            {#                        <i class="feather icon-plus-circle"></i>&nbsp; New File#}
+            {#                    </button>#}
+            {#                </a>#}
+            {#            {% endif %}#}
+        </div>
+    </div>
+    <hr/>
+    <h5 class="font-weight-bold py-3 mb-0">Sensor Properties</h5>
+    <div class="row">
+        <div class="col-md-12">
+            {% include "table/object_table.html" %}
+        </div>
+    </div>
+{% endblock %}
