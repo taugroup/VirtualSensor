@@ -45,6 +45,8 @@ class VirtualSensor:
         self.data_value = []
         self.key_values = []
         self.fields = []
+        
+        self.read_csv()
 
         if self.verbose:
             print("broker   :", broker)
