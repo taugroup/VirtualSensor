@@ -24,7 +24,7 @@ def on_log(client, userdata, level, buf):
     
 class VirtualSensor:
     def __init__(self, broker=None, topic=None, filepath=None, verbose=True,
-                 published=False, port=1883, timeout=60, interval=5, delimiter=",",
+                 published=False, port=1883, timeout=10, interval=5, delimiter=",",
                  connect_cb=on_connect, publish_cb=on_publish, log_cb=on_log):
         self.mqtt_client = mqtt.Client()
         self.mqtt_client.on_connect = connect_cb
@@ -46,6 +46,8 @@ class VirtualSensor:
         self.key_values = []
         self.fields = []
 
+        self.read_csv()
+
         if self.verbose:
             print("broker   :", broker)
             print("topic    :", self.topic)
@@ -60,6 +62,7 @@ class VirtualSensor:
             return False
 
         if self.filepath.lower().endswith(".csv"):
+            print("Start processing CSV file.")
             with open(self.filepath, mode='r') as csv_file:
                 dialect = csv.Sniffer().sniff(csv_file.read(1024))
                 csv_file.seek(0)
@@ -79,6 +82,9 @@ class VirtualSensor:
                         self.data_value.append(temp_val)
                         line_count += 1
             self.fields = key_values
+            if self.verbose:
+                print("The file is processed successfully")
+                print("The keys are:", self.fields)
 
     def read_json(self):
         if not os.path.exists(self.filepath):
