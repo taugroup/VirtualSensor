@@ -8,33 +8,17 @@ import json
 import paho.mqtt.client as mqtt
 import logging
 
-def on_connect(client, userdata, flags, rc):
-    logging.debug("Connected flags " + str(flags) + "result code " + str(rc))
-    if rc == 0:
-        client.connected_flag = True
-    else:
-        client.bad_connection_flag = True
-        print(f"Connected with result code : {rc}")
-
-def on_publish(client, userdata, mid):
-    print("Message Published.")
-    
-def on_log(client, userdata, level, buf):
-    print("log: ", buf)
-    
 class VirtualSensor:
     def __init__(self, broker=None, topic=None, filepath=None, verbose=True,
-                 published=False, port=1883, timeout=10, interval=5, delimiter=",",
-                 connect_cb=on_connect, publish_cb=on_publish, log_cb=on_log):
-        self.mqtt_client = mqtt.Client()
-        self.mqtt_client.on_connect = connect_cb
-        self.mqtt_client.on_publish = publish_cb
-        self.mqtt_client.on_log = log_cb
+                 published=False, user=None, password=None, tls=True, port=1883, 
+                 timeout=600, interval=5):
+        self.mqtt_user = user
+        self.mqtt_password = password 
+        self.tls = tls
         self.mqtt_broker = broker
         self.mqtt_port = port
         self.mqtt_timeout = timeout
         self.interval = interval
-        self.delimiter = delimiter
         self.filepath = filepath
         if topic:
             self.topic = topic
@@ -46,14 +30,47 @@ class VirtualSensor:
         self.key_values = []
         self.fields = []
 
-        self.read_csv()
-
         if self.verbose:
             print("broker   :", broker)
             print("topic    :", self.topic)
             print("file path:", self.filepath)
             print("interval :", self.interval)
-            print("delimiter:", self.delimiter)
+
+    def on_connect(client, userdata, flags, rc, properties=None):
+        logging.debug("Connected flags " + str(flags) + "result code " + str(rc))
+        if rc == 0:
+            client.connected_flag = True
+        else:
+            client.bad_connection_flag = True
+            print(f"Connected with result code : {rc}")
+
+    def on_publish(client, userdata, mid, properties=None):
+        print("Message Published.")
+
+    def on_log(client, userdata, level, buf):
+        print("log: ", buf)
+
+    def connect(self):
+        # Create an MQTT client instance
+        self.mqtt_client = mqtt.Client(client_id="", userdata=None, protocol=mqtt.MQTTv5)
+        self.mqtt_client.on_connect = self.on_connect
+        self.mqtt_client.on_log = self.on_log
+        self.mqtt_client.on_publish = self.on_publish
+
+        if self.tls:
+            # Set TLS context
+            self.mqtt_client.tls_set(tls_version=mqtt.ssl.PROTOCOL_TLS)
+            print("enable TLS")
+
+        # set username and password
+        if self.mqtt_user:
+            self.mqtt_client.username_pw_set(self.mqtt_user, self.mqtt_password)
+            print("set user and password for MQTT: ", self.mqtt_user)
+
+        if self.verbose:
+            self.mqtt_client.enable_logger()
+
+        self.mqtt_client.connect(self.mqtt_broker, self.mqtt_port)
 
     def read_csv(self):
         if not os.path.exists(self.filepath):
@@ -102,27 +119,30 @@ class VirtualSensor:
 
 
     def publish(self, loop=True):
-        self.mqtt_client.connect(self.mqtt_broker, self.mqtt_port, self.mqtt_timeout)
 # infinite loop
         if loop:
             while True:
                 for value in self.data_value:
                     temp_data_val = str(value).replace("'", '"')
                     try:
+                        self.mqtt_client.publish(self.topic, payload=temp_data_val, qos=0, retain=True)
                         if self.verbose:
                             print(self.topic, temp_data_val)
-                        self.mqtt_client.publish(self.topic, temp_data_val)
                         time.sleep(self.interval)
                     except Exception as e:
                         print(f"Publish Failed. {e}")
+                        self.connect()
+                        pass
         else:
             for value in self.data_value:
                 temp_data_val = str(value).replace("'", '"')
                 try:
                     if self.verbose:
                         print(self.topic, temp_data_val)
-                    self.mqtt_client.publish(self.topic, temp_data_val)
+                    self.mqtt_client.publish(self.topic, payload=temp_data_val, qos=1)
                     time.sleep(self.interval)
                 except Exception as e:
                     print(f"Publish Failed. {e}")            
+                    self.connect()
+                    pass
         return
