@@ -7,6 +7,7 @@ import csv
 import json
 import paho.mqtt.client as mqtt
 import logging
+import pandas as pd
 
 class VirtualSensor:
     def __init__(self, broker=None, topic=None, filepath=None, verbose=True,
@@ -81,7 +82,7 @@ class VirtualSensor:
         if self.filepath.lower().endswith(".csv"):
             print("Start processing CSV file.")
             with open(self.filepath, mode='r') as csv_file:
-                dialect = csv.Sniffer().sniff(csv_file.read(1024))
+                dialect = csv.Sniffer().sniff(csv_file.readline())
                 csv_file.seek(0)
                 csv_reader = csv.reader(csv_file, dialect)
                 line_count = 0
@@ -92,6 +93,7 @@ class VirtualSensor:
                     else:
                         temp_val = {}
                         data_val = row
+                        print (data_val)
                         count = 0
                         for value in key_values:
                             temp_val[value] = data_val[count]
@@ -102,6 +104,14 @@ class VirtualSensor:
             if self.verbose:
                 print("The file is processed successfully")
                 print("The keys are:", self.fields)
+
+    def pandas_read(self):
+        df = pd.read_csv(self.filepath)
+        df = df.T
+        df.drop(df.index[:10], inplace=True)
+        df['json'] = df.apply(lambda x: x.to_json(), axis=1)
+        self.key_values = df.columns
+        self.data_value = df['json'].values.tolist()
 
     def read_json(self):
         if not os.path.exists(self.filepath):
